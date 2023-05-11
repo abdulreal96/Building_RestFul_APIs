@@ -24,6 +24,10 @@ public class EmployeeService {
         return empRepository.findAll();
     }
 
+    public Employee getEmployee(Long id){
+        return empRepository.findByEmpId(id);
+    }
+
     // DELETE
     public void deleteEmployee(Long empId) {
         empRepository.deleteById(empId);

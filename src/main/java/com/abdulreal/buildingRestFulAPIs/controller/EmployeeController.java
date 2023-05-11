@@ -2,14 +2,14 @@ package com.abdulreal.buildingRestFulAPIs.controller;
 
 import java.util.List;
 
+import com.abdulreal.buildingRestFulAPIs.errorHandling.ApiRequestException;
 import com.abdulreal.buildingRestFulAPIs.model.Employee;
 import com.abdulreal.buildingRestFulAPIs.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -19,24 +19,31 @@ public class EmployeeController {
     @Autowired
     EmployeeService empService;
 
-    @RequestMapping(value="/employees", method=RequestMethod.POST)
-    public Employee createEmployee(@RequestBody Employee emp) {
-        return empService.createEmployee(emp);
+    @PostMapping("/employees")
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee emp) {
+
+        return new ResponseEntity<>(empService.createEmployee(emp), HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/employees", method=RequestMethod.GET)
-    public List<Employee> readEmployees() {
-        return empService.getEmployees();
+    public ResponseEntity<List<Employee>> readEmployees() {
+
+        return ResponseEntity.ok(empService.getEmployees());
     }
 
     @RequestMapping(value="/employees/{empId}", method=RequestMethod.PUT)
-    public Employee readEmployees(@PathVariable(value = "empId") Long id, @RequestBody Employee empDetails) {
-        return empService.updateEmployee(id, empDetails);
+    public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "empId") Long id, @RequestBody Employee empDetails) {
+        return new ResponseEntity<>(empService.updateEmployee(id, empDetails), HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/employees/{empId}", method=RequestMethod.DELETE)
     public void deleteEmployees(@PathVariable(value = "empId") Long id) {
         empService.deleteEmployee(id);
+    }
+
+    @GetMapping("/employee/{empId}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable(value = "empId") Long id){
+        return ResponseEntity.ok(empService.getEmployee(id));
     }
 
 
