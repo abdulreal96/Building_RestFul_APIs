@@ -2,12 +2,11 @@ package com.abdulreal.buildingRestFulAPIs.controller;
 
 import java.util.List;
 
-import com.abdulreal.buildingRestFulAPIs.errorHandling.ApiRequestException;
+import com.abdulreal.buildingRestFulAPIs.errorHandling.EmployeeNotFoundException;
 import com.abdulreal.buildingRestFulAPIs.model.Employee;
 import com.abdulreal.buildingRestFulAPIs.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +41,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/{empId}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable(value = "empId") Long id){
+    public ResponseEntity<Employee> getEmployee(@PathVariable(value = "empId") Long id)throws EmployeeNotFoundException {
         return ResponseEntity.ok(empService.getEmployee(id));
     }
 
